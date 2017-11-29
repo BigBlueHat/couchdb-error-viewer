@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Welcome to Vue</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="pure-1.0.0-min.css" />
+  <style>
+  .header, .content { padding-left: 2em; padding-right: 2em; }
+  .github { float:right }
+  textarea { width: 100%; min-height: 10em; }
+  </style>
+  <script src="https://unpkg.com/vue"></script>
+</head>
+<body>
+  <div class="header">
+    <a class="github" href="http://github.com/bigbluehat/couchdb-error-viewer">fork it</a>
+    <h1>Legible <a href="http://couchdb.apache.org/">Apache CouchDB</a> Errors</h1>
+  </div>
+  <div id="app" class="content">
+    <textarea v-model="message" placeholder="Paste your CouchDB or PouchDB error JSON here"></textarea>
+    <dl>
+      <dt>error</dt>
+      <dd><pre>{{parsed.error}}</pre></dd>
+      <dt>reason</dt>
+      <dd><pre>{{parsed.reason}}</pre></dd>
+    </dl>
+  </div>
+
+  <script>
+    var app = new Vue({
+      el: '#app',
+      data: {
+        message: ''
+      },
+      computed: {
+        parsed() {
+          if (typeof this.message === 'string' && this.message !== '') {
+            return JSON.parse(this.message);
+          } else {
+            return this.message;
+          }
+        }
+      },
+      methods: {
+        humanizeURL: function (url) {
+          return url
+            .replace(/^https?:\/\//, '')
+            .replace(/\/$/, '')
+        }
+      }
+    })
+  </script>
+</body>
+</html>
